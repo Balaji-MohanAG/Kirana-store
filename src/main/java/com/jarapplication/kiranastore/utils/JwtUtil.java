@@ -24,13 +24,14 @@ public class JwtUtil {
      * @param userId
      * @return
      */
-    public String generateToken(String username, List<String> roles, String userId) {
+    public String generateToken(String username, List<String> roles, String userId,String sessionId) {
         return Jwts.builder()
                 .setSubject(username)
-                .claim("roles", roles) // Adding roles as a claim
+                .claim("roles", roles)
                 .claim("userId", userId)
+                .claim("sessionId", sessionId)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
+                .setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.ACCESS_TOKEN_EXPIRATION_TIME))
                 .signWith(SECRET_KEY, SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -64,13 +65,21 @@ public class JwtUtil {
     }
 
     /**
+     * Extracts session id from JWT token
+     * @param token
+     * @return
+     */
+    public String extractSessionId(String token) {
+        return extractClaim(token, claims -> claims.get("sessionId", String.class));
+    }
+
+    /**
      * Extracts username from JWT token
      * @param token
      * @return
      */
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
-
     }
 
     /**

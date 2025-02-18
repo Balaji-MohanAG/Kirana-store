@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.client.HttpClientErrorException;
 
+import javax.naming.AuthenticationException;
+
 @ControllerAdvice
 public class ExceptionController {
 
@@ -58,6 +60,16 @@ public class ExceptionController {
         apiResponse.setErrorMessage("Invalid Request Parameter");
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
+
+    @ExceptionHandler(value = AuthenticationException.class)
+    public Object handleAuthenticationException(AuthenticationException e) {
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setSuccess(false);
+        apiResponse.setStatus("error");
+        apiResponse.setErrorMessage("Authentication failed");
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
     @ExceptionHandler(value = Exception.class)
     public Object handleException(Exception e) {
         ApiResponse apiResponse = new ApiResponse();

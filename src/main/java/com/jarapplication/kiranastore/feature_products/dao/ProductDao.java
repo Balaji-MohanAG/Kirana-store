@@ -57,8 +57,6 @@ public class ProductDao {
      * @return
      */
     public Optional<ProductEntity> findProductByName(String productName) {
-        Optional<ProductEntity> result = productRepository.findProductEntityByName(productName);
-        System.out.println(result);
-        return result;
+        return productRepository.findProductEntityByName(productName);
     }
 }
