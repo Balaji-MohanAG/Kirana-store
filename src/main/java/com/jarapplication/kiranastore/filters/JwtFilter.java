@@ -66,7 +66,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 } else {
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized: Invalid JWT.");
+                    System.out.println("called response wrong token");
+                    response.getWriter().write("Unauthorized: Invalid JWT.");
                     return;
                 }
             }
@@ -74,7 +75,7 @@ public class JwtFilter extends OncePerRequestFilter {
         } catch (Exception e) {
             ApiResponse apiResponse = new ApiResponse();
             apiResponse.setStatus("500");
-            apiResponse.setError("Handled");
+            apiResponse.setError("Invalid or expired JWT.");
             response.getWriter().write(apiResponse.toString());
         }
     }

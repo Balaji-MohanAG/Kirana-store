@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.jarapplication.kiranastore.feature_transactions.util.TransactionDtoUtil.TransactionEntityDTO;
+import static com.jarapplication.kiranastore.feature_transactions.util.TransactionDtoUtil.transactionResponseDto;
+
 @Service
 public class TransactionServiceImpl implements TransactionService{
 
@@ -26,9 +29,15 @@ public class TransactionServiceImpl implements TransactionService{
         this.transactionDao = transactionDao;
     }
 
+    /**
+     * checks for validity and makes refund
+     * @param billId
+     * @param userId
+     * @return
+     */
     @Transactional
     @Override
-    public PurchaseResponse makeRefund(String billId, String userId) {
+    public String makeRefund(String billId, String userId) {
         if(billId==null||userId==null){
             throw new IllegalArgumentException("billId and userId cannot be null");
         }
@@ -46,11 +55,15 @@ public class TransactionServiceImpl implements TransactionService{
             }
         }
         double amount = transactions.getFirst().getAmount();
-
         transactionDao.save(TransactionDtoUtil.toTransactionEntity(billId, userId, amount));
-        return null;
+        return "Refund successful" ;
     }
 
+    /**
+     * Makes purchase
+     * @param purchaseRequest
+     * @return
+     */
     @Transactional
     @Override
     public PurchaseResponse makePurchase(PurchaseRequest purchaseRequest) {
@@ -58,19 +71,11 @@ public class TransactionServiceImpl implements TransactionService{
             throw new IllegalArgumentException("purchaseRequest cannot be null");
         }
         TransactionDto transactionDto = billingService.generateBills(purchaseRequest);
-        transactionDao.save(TransactionDtoUtil.TransactionEntityDTO(transactionDto, TransactionType.PURCHASE));
-
+        transactionDao.save(TransactionEntityDTO(transactionDto));
         return transactionResponseDto(transactionDto);
 
     }
-    public PurchaseResponse transactionResponseDto(TransactionDto transactionDto) {
-        PurchaseResponse purchaseResponseDto = new PurchaseResponse();
-        purchaseResponseDto.setBillId(transactionDto.getBillId());
-        purchaseResponseDto.setAmount(transactionDto.getAmount());
-        purchaseResponseDto.setBillItems(transactionDto.getBillItems());
-        purchaseResponseDto.setTransactionType(transactionDto.getTransactionType());
-        return purchaseResponseDto;
-    }
+
 
 
 

@@ -7,7 +7,7 @@ import jakarta.transaction.Transactional;
 
 public interface TransactionService {
 
-    PurchaseResponse makeRefund(String billId, String userId);
+    String makeRefund(String billId, String userId);
 
     @Transactional
     PurchaseResponse makePurchase(PurchaseRequest purchaseRequest);

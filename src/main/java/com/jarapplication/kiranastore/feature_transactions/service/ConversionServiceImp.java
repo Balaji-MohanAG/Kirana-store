@@ -34,7 +34,6 @@ public class ConversionServiceImp implements ConversionService {
                 throw new JSONException("currencyCode is null");
             }
             String result = cacheService.getValueFromRedis(currencyCode+"_INR");
-            System.out.println(result);
             if (result != null) {
                 return Double.parseDouble(result);
             }
@@ -50,7 +49,6 @@ public class ConversionServiceImp implements ConversionService {
                     throw new IllegalArgumentException("Invalid Currency Code: " + currencyCode.name());
                 }
                 double value = baseToCurrency / baseToINR;
-                System.out.println(DateUtil.getEndOfMinute());
                 cacheService.setValueToRedis(currencyCode+"_INR",String.valueOf(value), DateUtil.getEndOfMinute());
                 return baseToCurrency / baseToINR;
             } else {

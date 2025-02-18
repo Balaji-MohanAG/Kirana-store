@@ -20,10 +20,6 @@ public class FxRatesApiServiceImp implements FxRatesApiService {
 
     }
 
-    @Override
-    public Object fetchCurrency() {
-        return null;
-    }
 
 
 }

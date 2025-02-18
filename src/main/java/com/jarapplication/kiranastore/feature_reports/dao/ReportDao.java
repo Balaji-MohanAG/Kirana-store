@@ -4,14 +4,10 @@ import com.jarapplication.kiranastore.feature_transactions.repository.Transactio
 import com.jarapplication.kiranastore.feature_transactions.entity.TransactionEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import static com.jarapplication.kiranastore.feature_reports.util.DateUtil.*;
 
-
-// repo
 @Component
 public class ReportDao {
     private TransactionRepository transactionRepository;
@@ -29,13 +25,7 @@ public class ReportDao {
      * @return
      */
     public List<TransactionEntity> getTransactionsForWeek(int weekNumber, int month, int year) {
-        Date startOfWeek = getStartOfWeek(weekNumber, month, year);
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(startOfWeek);
-        calendar.add(Calendar.DAY_OF_WEEK, 6); // Get end of the week
-        Date endOfWeek = getEndOfDay(calendar.getTime());
-
-        return transactionRepository.findTransactionsByDateRange(startOfWeek, endOfWeek);
+        return transactionRepository.findTransactionsByDateRange(getStartOfWeek(weekNumber, month, year), getEndOfWeek(weekNumber, month, year));
     }
 
     /**

@@ -41,7 +41,10 @@ public class RateLimiterFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        System.out.println(bucket.getAvailableTokens());
+        if(request.getServletPath().startsWith("/actuators/**")){
+            filterChain.doFilter(request, response);
+            return;
+        }
         if (!bucket.tryConsume(1)) {
             response.setStatus(429);
             response.getWriter().write("Too Many Requests");

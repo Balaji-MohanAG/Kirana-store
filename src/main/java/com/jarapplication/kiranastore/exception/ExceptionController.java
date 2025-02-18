@@ -13,6 +13,11 @@ import org.springframework.web.client.HttpClientErrorException;
 @ControllerAdvice
 public class ExceptionController {
 
+    /**
+     * userName doesn't exist Exception
+     * @param e
+     * @return
+     */
     @ExceptionHandler(value = UserNameExistsException.class)
     public Object UserNameExistsException(UserNameExistsException e) {
         ApiResponse apiResponse = new ApiResponse();
@@ -22,6 +27,11 @@ public class ExceptionController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
+    /**
+     * Illegal Argument Exception
+     * @param e
+     * @return
+     */
     @ExceptionHandler(value = IllegalArgumentException.class)
     public Object IllegalArgumentException(IllegalArgumentException e) {
         ApiResponse apiResponse = new ApiResponse();
@@ -32,14 +42,15 @@ public class ExceptionController {
     }
 
 
-//    @ExceptionHandler(value = Exception.class)
-//    public Object handleSpringException(Exception e) {
-//        ApiResponse apiResponse = new ApiResponse();
-//        apiResponse.setSuccess(false);
-//        apiResponse.setStatus("10000");
-//        apiResponse.setErrorMessage("Something went wrong. Please try again later!");
-//        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
-//    }
+    @ExceptionHandler(value = RateLimitExceededException.class)
+    public Object RateLimitExceededException(RateLimitExceededException e) {
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setSuccess(false);
+        apiResponse.setStatus("error");
+        apiResponse.setErrorMessage(e.getMessage());
+        apiResponse.setStatus("429");
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
 
     @ExceptionHandler(value = HttpMessageNotReadableException.class)
     public Object handleSpringRequestBodyException(HttpMessageNotReadableException e) {
