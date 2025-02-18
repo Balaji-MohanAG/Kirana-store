@@ -94,6 +94,4 @@ public class DateUtil {
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
         return getEndOfDay(calendar.getTime());
     }
-
-
 }

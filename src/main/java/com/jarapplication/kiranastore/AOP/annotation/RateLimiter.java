@@ -10,6 +10,4 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RateLimiter {
     int limit() default 10;
-
-
 }

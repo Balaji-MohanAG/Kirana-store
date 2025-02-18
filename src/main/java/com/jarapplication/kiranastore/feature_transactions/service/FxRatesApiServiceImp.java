@@ -19,8 +19,5 @@ public class FxRatesApiServiceImp implements FxRatesApiService {
         return restTemplate.getForObject(url, String.class);
 
     }
-
-
-
 }
 

@@ -23,6 +23,7 @@ public class ReportKafkaListener {
     @KafkaListener(topics = "test-topic")
     public void processUserAttributionEvent(String message) {
 
+        System.out.println(reportService.getWeeklyReport());
         if(message.equals("Weekly Report")){
             System.out.println(reportService.getWeeklyReport());
         }
