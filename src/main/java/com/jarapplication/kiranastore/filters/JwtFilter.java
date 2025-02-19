@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
 
+import static com.jarapplication.kiranastore.constants.SecurityConstants.TOKEN_PREFIX;
+
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
@@ -45,7 +47,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
             String authorizationHeader = request.getHeader("Authorization");
 
-            if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            if (authorizationHeader == null || !authorizationHeader.startsWith(TOKEN_PREFIX)) {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized: No JWT token found.");
                 return;
             }
@@ -57,7 +59,7 @@ public class JwtFilter extends OncePerRequestFilter {
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-                if (jwtUtil.validateToken(token, userDetails.getUsername())) {
+                if (jwtUtil.isvalidateToken(token)) {
                     List<SimpleGrantedAuthority> authorities = roles.stream()
                             .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                             .collect(Collectors.toList());

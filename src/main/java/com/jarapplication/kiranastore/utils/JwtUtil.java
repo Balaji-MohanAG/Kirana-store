@@ -39,11 +39,20 @@ public class JwtUtil {
     /**
      * Validates JWT token
      * @param token
-     * @param username
      * @return
      */
-    public boolean validateToken(String token, String username) {
-        return extractUsername(token).equals(username) && !isTokenExpired(token);
+    public boolean isvalidateToken(String token) {
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(SECRET_KEY)
+                    .build()
+                    .parseClaimsJws(token);
+            return  !isTokenExpired(token);
+        }
+        catch (Exception e){
+
+            return false;
+        }
     }
 
     /**

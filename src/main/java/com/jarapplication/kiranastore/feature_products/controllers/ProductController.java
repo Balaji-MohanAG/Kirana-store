@@ -5,6 +5,8 @@ import com.jarapplication.kiranastore.feature_products.models.Product;
 import com.jarapplication.kiranastore.feature_products.service.ProductServiceImp;
 import com.jarapplication.kiranastore.response.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -47,12 +49,11 @@ public class ProductController {
      */
     @PostMapping("/add")
     @PreAuthorize("hasRole('ADMIN')")
-    public ApiResponse addProduct(@RequestBody Product product) {
+    public ResponseEntity<ApiResponse> addProduct(@RequestBody Product product) {
         Product result = productService.save(product);
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setData(result);
-        apiResponse.setStatus(HttpStatusCode.CREATED);
-        return apiResponse;
+        return new ResponseEntity<>(apiResponse,HttpStatus.OK);
     }
 
     /**

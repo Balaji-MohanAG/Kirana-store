@@ -11,6 +11,8 @@ import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import static com.jarapplication.kiranastore.constants.SecurityConstants.TOKEN_PREFIX;
+
 @RestController("/v1/api")
 public class TransactionController {
 
@@ -31,7 +33,7 @@ public class TransactionController {
      */
     @PostMapping("/refund")
     public ApiResponse refund(@RequestHeader("Authorization") String token , @RequestBody RefundRequest request) throws JSONException {
-        String jwt = token.replace("Bearer ", "");
+        String jwt = token.replace(TOKEN_PREFIX, "");
         String userId = jwtUtil.extractUserId(jwt);
         String billId = request.getBillId();
         transactionServiceImpl.makeRefund(billId, userId);
@@ -51,7 +53,7 @@ public class TransactionController {
     @PostMapping("/purchase")
     public ApiResponse purchase(@RequestHeader("Authorization") String token, @RequestBody PurchaseRequest request) throws JSONException {
 
-        String jwt = token.replace("Bearer ", "");
+        String jwt = token.replace(TOKEN_PREFIX, "");
         String UserId = jwtUtil.extractUserId(jwt);
         String userName = jwtUtil.extractUsername(jwt);
         request.setUserId(UserId);

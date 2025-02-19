@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.json.JSONObject;
 
+import java.text.MessageFormat;
+
 
 @Service
 public class ConversionServiceImp implements ConversionService {
@@ -33,8 +35,8 @@ public class ConversionServiceImp implements ConversionService {
             if(currencyCode==null){
                 throw new JSONException("currencyCode is null");
             }
-            String result = cacheService.getValueFromRedis(currencyCode+"_INR");
-            System.out.println(result);
+
+            String result = cacheService.getValueFromRedis(MessageFormat.format("{0}_INR",currencyCode));
             if (result != null) {
                 return Double.parseDouble(result);
             }
@@ -50,7 +52,6 @@ public class ConversionServiceImp implements ConversionService {
                     throw new IllegalArgumentException("Invalid Currency Code: " + currencyCode.name());
                 }
                 double value = baseToCurrency / baseToINR;
-                System.out.println(DateUtil.getEndOfMinute());
                 cacheService.setValueToRedis(currencyCode+"_INR",String.valueOf(value), DateUtil.getEndOfMinute());
                 return baseToCurrency / baseToINR;
             } else {

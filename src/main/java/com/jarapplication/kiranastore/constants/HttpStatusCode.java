@@ -1,18 +1,17 @@
 package com.jarapplication.kiranastore.constants;
 
+import org.springframework.http.HttpStatus;
+
 public class HttpStatusCode {
-        // 2xx Success
         public static final String OK = "200";
         public static final String CREATED = "201";
         public static final String ACCEPTED = "202";
         public static final String NO_CONTENT = "204";
-
-        // 3xx Redirection
         public static final String MOVED_PERMANENTLY = "301";
         public static final String FOUND = "302";
         public static final String NOT_MODIFIED = "304";
+        public static final HttpStatus NOT_MODIFIED1 = HttpStatus.CREATED;
 
-        // 4xx Client Errors
         public static final String BAD_REQUEST = "400";
         public static final String UNAUTHORIZED = "401";
         public static final String FORBIDDEN = "403";
@@ -21,7 +20,6 @@ public class HttpStatusCode {
         public static final String CONFLICT = "409";
         public static final String UNPROCESSABLE_ENTITY = "422";
 
-        // 5xx Server Errors
         public static final String INTERNAL_SERVER_ERROR = "500";
         public static final String NOT_IMPLEMENTED = "501";
         public static final String BAD_GATEWAY = "502";
