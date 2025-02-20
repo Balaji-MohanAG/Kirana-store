@@ -1,23 +1,21 @@
 package com.jarapplication.kiranastore.redis;
 
+import java.util.concurrent.TimeUnit;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class RedisStorageService {
 
     private final RedisTemplate<String, String> redisKVTemplate;
 
-
     public RedisStorageService(RedisTemplate<String, String> redisKVTemplate) {
         this.redisKVTemplate = redisKVTemplate;
-
     }
 
     /**
      * Stores the key values pair for Time to live duration
+     *
      * @param key
      * @param value
      * @param ttl
@@ -28,6 +26,7 @@ public class RedisStorageService {
 
     /**
      * Retrieves the value for a key
+     *
      * @param key
      * @return
      */
@@ -37,10 +36,10 @@ public class RedisStorageService {
 
     /**
      * Deletes the data based on key
+     *
      * @param key
      */
     public void deleteCachedData(String key) {
         redisKVTemplate.delete(key);
     }
-
 }

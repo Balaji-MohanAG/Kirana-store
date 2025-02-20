@@ -5,25 +5,25 @@ import com.jarapplication.kiranastore.exception.RateLimitExceededException;
 import io.github.bucket4j.Bandwidth;
 import io.github.bucket4j.Bucket;
 import io.github.bucket4j.Refill;
+import java.lang.reflect.Method;
+import java.time.Duration;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
-
-import java.lang.reflect.Method;
-import java.time.Duration;
-import java.util.HashMap;
-
 
 @Aspect
 @Component
 public class RateLimiterAspect {
 
-    private HashMap<Method, Bucket> rateLimiterHashMap = new HashMap<>();
+    private final Map<Method, Bucket> rateLimiterHashMap = new ConcurrentHashMap<>();
+
     /**
      * Executes the function when annotated
+     *
      * @param joinPoint
      * @throws IllegalAccessException
      */
@@ -36,14 +36,17 @@ public class RateLimiterAspect {
 
         int limit = rateLimiter.limit();
 
-        rateLimiterHashMap.putIfAbsent(method ,Bucket.builder()
-                .addLimit(Bandwidth.classic(limit, Refill.greedy(limit, Duration.ofMinutes(1))))
-                .build());
+        rateLimiterHashMap.putIfAbsent(
+                method,
+                Bucket.builder()
+                        .addLimit(
+                                Bandwidth.classic(
+                                        limit, Refill.greedy(limit, Duration.ofMinutes(1))))
+                        .build());
         Bucket bucket = rateLimiterHashMap.get(method);
-                System.out.println(bucket.getAvailableTokens());
 
         if (bucket.tryConsume(1)) {
-            return joinPoint.proceed();  // Proceed with the method execution
+            return joinPoint.proceed(); // Proceed with the method execution
         } else {
             throw new RateLimitExceededException("Too many requests. Please try again later.");
         }

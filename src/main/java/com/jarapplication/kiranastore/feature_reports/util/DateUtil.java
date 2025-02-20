@@ -1,12 +1,12 @@
 package com.jarapplication.kiranastore.feature_reports.util;
 
-
 import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtil {
     /**
      * Gets the exact start of the date
+     *
      * @param date
      * @return
      */
@@ -21,7 +21,8 @@ public class DateUtil {
     }
 
     /**
-     *Gets the exact end of the date
+     * Gets the exact end of the date
+     *
      * @param date
      * @return
      */
@@ -37,6 +38,7 @@ public class DateUtil {
 
     /**
      * Gets the exact start of the week
+     *
      * @param weekNumber
      * @param month
      * @param year
@@ -53,6 +55,7 @@ public class DateUtil {
 
     /**
      * Gets the exact end of the week
+     *
      * @param weekNumber
      * @param month
      * @param year
@@ -69,6 +72,7 @@ public class DateUtil {
 
     /**
      * Gets the exact start of the month
+     *
      * @param month
      * @param year
      * @return
@@ -83,6 +87,7 @@ public class DateUtil {
 
     /**
      * gets the exact end of the month
+     *
      * @param month
      * @param year
      * @return

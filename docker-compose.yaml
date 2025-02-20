@@ -1,3 +1,173 @@
+#services:
+#  postgres:
+#    image: postgres:latest
+#    container_name: postgres
+#    restart: always
+#    environment:
+#      POSTGRES_USER: myuser
+#      POSTGRES_PASSWORD: mypassword
+#      POSTGRES_DB: mydatabase
+#    ports:
+#      - "5432:5432"
+#    volumes:
+#      - postgres_data:/var/lib/postgresql/data
+#    networks:
+#      - kirana_store_network
+#
+#  mongodb:
+#    image: mongo:latest
+#    container_name: mongo
+#    restart: unless-stopped
+#    environment:
+#      - MONGO_INITDB_ROOT_USERNAME=admin
+#      - MONGO_INITDB_ROOT_PASSWORD=admin123
+#      - MONGO_INITDB_DATABASE=mydatabase
+#    ports:
+#      - "27017:27017"
+#    volumes:
+#      - mongo-data:/data/db
+#    networks:
+#      - kirana_store_network
+#
+#  redis:
+#    image: redis:latest
+#    container_name: redis
+#    restart: always
+#    ports:
+#      - "6379:6379"
+#    volumes:
+#      - redis_data:/data
+#    command: ["redis-server", "--appendonly", "yes"]
+#    networks:
+#      - kirana_store_network
+#
+#  kafka:
+#    image: bitnami/kafka
+#    container_name: kafka
+#    ports:
+#      - 9092:9092
+#    environment:
+#     - KAFKA_ENABLE_KRAFT=yes
+#     - KAFKA_CFG_PROCESS_ROLES=broker,controller
+#     - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+#     - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+#     - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+#     - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+#     - KAFKA_BROKER_ID=1
+#     - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka:9093
+#     - ALLOW_PLAINTEXT_LISTENER=yes
+#     - KAFKA_CFG_NODE_ID=1
+#     - KAFKA_KRAFT_CLUSTER_ID=MkU3OEVBNTcwNTJENDM2Qk
+#    volumes:
+#      - ./kafka:/bitnami/kafka
+#    networks:
+#      - kirana_store_network
+#
+#
+#  prometheus:
+#    image: prom/prometheus
+#    container_name: prometheus
+#    restart: unless-stopped
+#    ports:
+#      - "9090:9090"
+#    volumes:
+#      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+#    networks:
+#      - kirana_store_network
+#
+#  grafana:
+#    image: grafana/grafana-oss
+#    container_name: grafana
+#    restart: unless-stopped
+#    ports:
+#      - "3000:3000"
+#    volumes:
+#      - grafana-storage:/var/lib/grafana
+#    environment:
+#      - GF_SECURITY_ADMIN_PASSWORD=admin
+#      - GF_AUTH_ANONYMOUS_ENABLED=true
+#    networks:
+#      - kirana_store_network
+#
+#  spring-boot-app:
+#    build: ./
+#    container_name: main-app
+#    restart: always
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      - postgres
+#      - redis
+#      - mongodb
+#      - kafka
+#    volumes:
+#      - /Users/balajim/Desktop/Kirana-Store/Kirana-store/.logs:/logs
+#    networks:
+#      - kirana_store_network
+#
+#  elasticsearch: # configures the Elasticsearch container.
+#    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.2
+#    container_name: elasticsearch # Sets the name of the container to "elasticsearch."
+#    environment: # Configures environment variables for the Elasticsearch container, such as node name, discovery type, memory lock, and Java options for heap size.
+#      - node.name=elasticsearch
+#      - discovery.type=single-node
+#      - bootstrap.memory_lock=true
+#      - 'ES_JAVA_OPTS=-Xms512m -Xmx512m'
+#    ulimits:
+#      memlock:
+#        soft: -1
+#        hard: -1
+#    volumes:
+#      - es-data:/usr/share/elasticsearch/data
+#    ports:
+#      - 9200:9200
+#    networks:
+#      - kirana_store_network
+#
+#  logstash: #c onfigures the Logstash container.
+#    image: docker.elastic.co/logstash/logstash:7.15.2
+#    container_name: logstash # Sets the name of the container to "logstash."
+#    volumes:
+#      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+#      - ./logstash/pipeline/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+#      - /logs/sample.log:/usr/share/logstash/data/sample.log # add your log file path to here
+#      - ./logs:/usr/share/logstash/logs
+#    ports:
+#      - 5000:5000
+#    environment:
+#      - 'LS_JAVA_OPTS=-Xmx256m -Xms256m' # Sets the Java options for Logstash heap size.
+#    networks:
+#      - kirana_store_network
+#    depends_on:
+#      - elasticsearch
+#
+#  kibana: # Configures the Kibana container.
+#    image: docker.elastic.co/kibana/kibana:7.15.2
+#    container_name: kibana # Sets the name of the container to "kibana."
+#    ports:
+#      - 5601:5601
+#    environment: # Sets the Elasticsearch URL and Node.js options for the Kibana container.
+#      - ELASTICSEARCH_URL=http://elasticsearch:9200
+#      - 'NODE_OPTIONS=--max-old-space-size=2048'
+#    networks:
+#      - kirana_store_network
+#    depends_on:
+#      - elasticsearch
+#
+#volumes:
+#  postgres_data:
+#  mongo-data:
+#  kafka_data:
+#  redis_data:
+#  grafana-storage:
+#  es-data:  # Explicitly defining the volume
+#    driver: local
+#
+#networks:
+#  kirana_store_network:
+
+
+
 services:
   postgres:
     image: postgres:latest
@@ -11,8 +181,8 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-#    networks:
-#      - kirana_store_network
+    networks:
+      - kirana_store_network
 
   mongodb:
     image: mongo:latest
@@ -26,8 +196,8 @@ services:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
-#    networks:
-#      - kirana_store_network
+    networks:
+      - kirana_store_network
 
   redis:
     image: redis:latest
@@ -38,8 +208,8 @@ services:
     volumes:
       - redis_data:/data
     command: ["redis-server", "--appendonly", "yes"]
-#    networks:
-#      - kirana_store_network
+    networks:
+      - kirana_store_network
 
   kafka:
     image: bitnami/kafka
@@ -47,21 +217,21 @@ services:
     ports:
       - 9092:9092
     environment:
-     - KAFKA_ENABLE_KRAFT=yes
-     - KAFKA_CFG_PROCESS_ROLES=broker,controller
-     - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
-     - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
-     - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
-     - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
-     - KAFKA_BROKER_ID=1
-     - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka:9093
-     - ALLOW_PLAINTEXT_LISTENER=yes
-     - KAFKA_CFG_NODE_ID=1
-     - KAFKA_KRAFT_CLUSTER_ID=MkU3OEVBNTcwNTJENDM2Qk
+      - KAFKA_ENABLE_KRAFT=yes
+      - KAFKA_CFG_PROCESS_ROLES=broker,controller
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
+      - KAFKA_BROKER_ID=1
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka:9093
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_NODE_ID=1
+      - KAFKA_KRAFT_CLUSTER_ID=MkU3OEVBNTcwNTJENDM2Qk
     volumes:
       - ./kafka:/bitnami/kafka
-#    networks:
-#      - kirana_store_network
+    networks:
+      - kirana_store_network
 
 
   prometheus:
@@ -72,8 +242,8 @@ services:
       - "9090:9090"
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
-#    networks:
-#      - kirana_store_network
+    networks:
+      - kirana_store_network
 
   grafana:
     image: grafana/grafana-oss
@@ -86,29 +256,64 @@ services:
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
       - GF_AUTH_ANONYMOUS_ENABLED=true
-#    networks:
-#      - kirana_store_network
+    networks:
+      - kirana_store_network
 
-#  spring-boot-app:
-#    build: ./
-#    container_name: main-app
-#    restart: always
-#    ports:
-#      - "8080:8080"
-#    depends_on:
-#      - postgres
-#      - redis
-#      - mongodb
-#      - kafka
-#    networks:
-#      - kirana_store_network
+  elasticsearch: # configures the Elasticsearch container.
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.2
+    container_name: elasticsearch # Sets the name of the container to "elasticsearch."
+    environment: # Configures environment variables for the Elasticsearch container, such as node name, discovery type, memory lock, and Java options for heap size.
+      - node.name=elasticsearch
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - 'ES_JAVA_OPTS=-Xms512m -Xmx512m'
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - es-data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    networks:
+      - kirana_store_network
 
+  logstash: #c onfigures the Logstash container.
+    image: docker.elastic.co/logstash/logstash:7.15.2
+    container_name: logstash # Sets the name of the container to "logstash."
+    volumes:
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ./logstash/pipeline/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./logs/sample.log:/usr/share/logstash/data/sample.log
+      - ./logs:/usr/share/logstash/logs
+    ports:
+      - 5001:5000
+    environment:
+      - 'LS_JAVA_OPTS=-Xmx256m -Xms256m' # Sets the Java options for Logstash heap size.
+    networks:
+      - kirana_store_network
+    depends_on:
+      - elasticsearch
+
+  kibana: # Configures the Kibana container.
+    image: docker.elastic.co/kibana/kibana:7.15.2
+    container_name: kibana # Sets the name of the container to "kibana."
+    ports:
+      - 5601:5601
+    environment: # Sets the Elasticsearch URL and Node.js options for the Kibana container.
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - 'NODE_OPTIONS=--max-old-space-size=2048'
+    networks:
+      - kirana_store_network
+    depends_on:
+      - elasticsearch
 volumes:
   postgres_data:
   mongo-data:
   kafka_data:
   redis_data:
   grafana-storage:
+  es-data:
 
-#networks:
-#  kirana_store_network:
+networks:
+  kirana_store_network:

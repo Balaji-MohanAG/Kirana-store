@@ -17,7 +17,6 @@ public class UserDAO {
     }
 
     /**
-     *
      * @param user
      * @return
      */
@@ -27,7 +26,6 @@ public class UserDAO {
     }
 
     /**
-     *
      * @param username
      * @return
      */
@@ -35,5 +33,4 @@ public class UserDAO {
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
-
 }

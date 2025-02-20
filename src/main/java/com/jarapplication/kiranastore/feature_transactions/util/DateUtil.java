@@ -6,9 +6,10 @@ public class DateUtil {
 
     /**
      * to get how many milli sec left for end of the min
+     *
      * @return
      */
-    public static long getEndOfMinute(){
+    public static long getEndOfMinute() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);

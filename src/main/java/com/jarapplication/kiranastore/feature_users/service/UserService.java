@@ -1,7 +1,6 @@
 package com.jarapplication.kiranastore.feature_users.service;
 
 import com.jarapplication.kiranastore.feature_users.models.UserRequest;
-
 import java.util.List;
 
 public interface UserService {

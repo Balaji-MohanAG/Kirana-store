@@ -2,18 +2,16 @@ package com.jarapplication.kiranastore.feature_users.service;
 
 import com.jarapplication.kiranastore.feature_users.entity.User;
 import com.jarapplication.kiranastore.feature_users.repository.UserRepository;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-
 
     private final UserRepository userRepository;
 
@@ -24,7 +22,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if(username==null){
+        if (username == null) {
             throw new UsernameNotFoundException("username is null");
         }
         Optional<User> user = Optional.ofNullable(userRepository.findByUsername(username));

@@ -10,9 +10,6 @@ import com.jarapplication.kiranastore.response.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
-
 @RestController
 @RequestMapping
 public class UserController {
@@ -21,30 +18,30 @@ public class UserController {
     private final AuthService authService;
 
     @Autowired
-    public UserController(UserServiceImp userService,
-                          AuthServiceImp authServiceImp) {
+    public UserController(UserServiceImp userService, AuthServiceImp authServiceImp) {
         this.userService = userService;
         this.authService = authServiceImp;
     }
 
-
     /**
-     *  user login
+     * user login
+     *
      * @param userRequest
      * @return
      */
     @RateLimiter(limit = 5)
     @PostMapping("/login")
     public ApiResponse login(@RequestBody UserRequest userRequest) {
-        String token = authService.authenticate(userRequest.getUsername(), userRequest.getPassword());
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setStatus(HttpStatusCode.CREATED);
-        apiResponse.setData(Map.of("token", token));
+        apiResponse.setData(
+                authService.authenticate(userRequest.getUsername(), userRequest.getPassword()));
         return apiResponse;
     }
 
     /**
      * User sign up
+     *
      * @param userRequest
      * @return
      */

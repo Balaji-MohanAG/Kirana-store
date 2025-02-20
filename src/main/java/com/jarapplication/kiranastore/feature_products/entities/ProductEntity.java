@@ -1,20 +1,17 @@
 package com.jarapplication.kiranastore.feature_products.entities;
 
-
-import lombok.Data;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-
 @Data
 @Document(collection = "products")
 public class ProductEntity {
 
-    @Id
-    private String id;
+    @Id private String id;
 
     @Field("name")
     @Indexed(unique = true)

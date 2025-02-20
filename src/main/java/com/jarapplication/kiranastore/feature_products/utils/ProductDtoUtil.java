@@ -2,12 +2,12 @@ package com.jarapplication.kiranastore.feature_products.utils;
 
 import com.jarapplication.kiranastore.feature_products.entities.ProductEntity;
 import com.jarapplication.kiranastore.feature_products.models.Product;
-import org.springframework.stereotype.Component;
 
 public class ProductDtoUtil {
 
     /**
      * transforms from ProductEntity to Product
+     *
      * @param productEntity
      * @return
      */
@@ -21,6 +21,7 @@ public class ProductDtoUtil {
 
     /**
      * Transforms from Product to ProductEntity
+     *
      * @param product
      * @return
      */

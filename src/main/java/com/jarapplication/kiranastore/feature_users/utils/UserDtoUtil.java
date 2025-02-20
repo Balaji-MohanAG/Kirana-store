@@ -7,6 +7,7 @@ public class UserDtoUtil {
 
     /**
      * DTO of user to userEntity
+     *
      * @param userRequest
      * @return
      */
@@ -20,6 +21,7 @@ public class UserDtoUtil {
 
     /**
      * DTO of userEntity to user
+     *
      * @param user
      * @return
      */

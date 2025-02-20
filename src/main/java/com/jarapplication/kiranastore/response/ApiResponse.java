@@ -3,9 +3,7 @@ package com.jarapplication.kiranastore.response;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
-/**
- * Standard API Response
- */
+/** Standard API Response */
 @Component
 @Data
 public class ApiResponse {
@@ -16,5 +14,4 @@ public class ApiResponse {
     private String error;
     private Object errorMessage;
     private String errorCode;
-
 }

@@ -1,14 +1,11 @@
 package com.jarapplication.kiranastore.AOP;
 
 import com.jarapplication.kiranastore.AOP.annotation.Capitalize;
-import com.jarapplication.kiranastore.AOP.annotation.CapitalizeMethod;
-import org.aspectj.lang.JoinPoint;
+import java.lang.reflect.Field;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
-import java.lang.reflect.Field;
 
 @Aspect
 @Component
@@ -16,6 +13,7 @@ public class CapitalizeAspect {
 
     /**
      * Executes the function when annotated
+     *
      * @param joinPoint
      * @throws IllegalAccessException
      */
@@ -25,7 +23,8 @@ public class CapitalizeAspect {
 
         if (entity != null) {
             for (Field field : entity.getClass().getDeclaredFields()) {
-                if (field.isAnnotationPresent(Capitalize.class) && field.getType().equals(String.class)) {
+                if (field.isAnnotationPresent(Capitalize.class)
+                        && field.getType().equals(String.class)) {
                     field.setAccessible(true);
                     String value = (String) field.get(entity);
                     if (value != null) {
@@ -37,5 +36,3 @@ public class CapitalizeAspect {
         return joinPoint.proceed();
     }
 }
-
-
