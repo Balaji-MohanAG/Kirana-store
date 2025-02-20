@@ -1,12 +1,12 @@
 package com.jarapplication.kiranastore.feature_reports.util;
 
-
 import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtil {
     /**
      * Gets the exact start of the date
+     *
      * @param date
      * @return
      */
@@ -19,7 +19,6 @@ public class DateUtil {
         calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTime();
     }
-
 
     public static Date getEndOfDay(Date date) {
         Calendar calendar = Calendar.getInstance();
@@ -55,6 +54,4 @@ public class DateUtil {
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
         return getEndOfDay(calendar.getTime());
     }
-
-
 }

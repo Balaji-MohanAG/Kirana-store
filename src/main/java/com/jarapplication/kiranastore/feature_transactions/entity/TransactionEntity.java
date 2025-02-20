@@ -2,10 +2,9 @@ package com.jarapplication.kiranastore.feature_transactions.entity;
 
 import com.jarapplication.kiranastore.feature_transactions.enums.TransactionType;
 import jakarta.persistence.*;
+import java.util.Date;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
-
-import java.util.Date;
 
 @Data
 @Entity
@@ -26,7 +25,7 @@ public class TransactionEntity {
     @Column(name = "user_id")
     private String userId;
 
-    @Enumerated(EnumType.STRING)  // Store enum as String
+    @Enumerated(EnumType.STRING) // Store enum as String
     @Column(name = "transaction_type", nullable = false)
     private TransactionType transactionType;
 

@@ -1,6 +1,5 @@
 package com.jarapplication.kiranastore.feature_transactions.service;
 
-
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -11,20 +10,17 @@ public class FxRatesApiServiceImp implements FxRatesApiService {
 
     /**
      * Fetches the exchange rate
+     *
      * @return
      */
     @Override
     public Object fetchData() {
         String url = "https://api.fxratesapi.com/latest";
         return restTemplate.getForObject(url, String.class);
-
     }
 
     @Override
     public Object fetchCurrency() {
         return null;
     }
-
-
 }
-

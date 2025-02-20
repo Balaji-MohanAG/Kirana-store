@@ -11,27 +11,26 @@ public class ReportKafkaListener {
     ReportService reportService;
 
     @Autowired
-
     public ReportKafkaListener(ReportService reportService) {
         this.reportService = reportService;
     }
 
     /**
      * Kafka Consumer which triggers to generate reports
+     *
      * @param message
      */
     @KafkaListener(topics = "test-topic")
     public void processUserAttributionEvent(String message) {
 
-        if(message.equals("Weekly Report")){
+        if (message.equals("Weekly Report")) {
             System.out.println(reportService.getWeeklyReport());
         }
-        if(message.equals("Monthly Report")){
+        if (message.equals("Monthly Report")) {
             System.out.println(reportService.getWeeklyReport());
         }
-        if(message.equals("Yearly Report")){
+        if (message.equals("Yearly Report")) {
             System.out.println(reportService.getWeeklyReport());
         }
-
     }
 }

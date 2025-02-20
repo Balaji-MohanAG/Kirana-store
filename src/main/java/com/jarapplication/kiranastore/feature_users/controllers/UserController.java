@@ -1,7 +1,6 @@
 package com.jarapplication.kiranastore.feature_users.controllers;
 
 import com.jarapplication.kiranastore.constants.HttpStatusCode;
-import com.jarapplication.kiranastore.feature_users.models.AuthResponse;
 import com.jarapplication.kiranastore.feature_users.models.UserRequest;
 import com.jarapplication.kiranastore.feature_users.service.AuthService;
 import com.jarapplication.kiranastore.feature_users.service.AuthServiceImp;
@@ -9,9 +8,6 @@ import com.jarapplication.kiranastore.feature_users.service.UserServiceImp;
 import com.jarapplication.kiranastore.response.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
-
 
 @RestController
 @RequestMapping
@@ -21,15 +17,14 @@ public class UserController {
     private final AuthService authService;
 
     @Autowired
-    public UserController(UserServiceImp userService,
-                          AuthServiceImp authServiceImp) {
+    public UserController(UserServiceImp userService, AuthServiceImp authServiceImp) {
         this.userService = userService;
         this.authService = authServiceImp;
     }
 
-
     /**
-     *  user login
+     * user login
+     *
      * @param userRequest
      * @return
      */
@@ -37,12 +32,14 @@ public class UserController {
     public ApiResponse login(@RequestBody UserRequest userRequest) {
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setStatus(HttpStatusCode.CREATED);
-        apiResponse.setData(authService.authenticate(userRequest.getUsername(), userRequest.getPassword()));
+        apiResponse.setData(
+                authService.authenticate(userRequest.getUsername(), userRequest.getPassword()));
         return apiResponse;
     }
 
     /**
      * User sign up
+     *
      * @param userRequest
      * @return
      */

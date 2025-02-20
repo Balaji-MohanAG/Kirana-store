@@ -1,9 +1,8 @@
 package com.jarapplication.kiranastore.feature_transactions.model;
 
 import com.jarapplication.kiranastore.feature_transactions.enums.TransactionType;
-import lombok.Data;
-
 import java.util.List;
+import lombok.Data;
 
 @Data
 public class PurchaseResponse {

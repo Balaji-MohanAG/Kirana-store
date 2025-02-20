@@ -2,9 +2,8 @@ package com.jarapplication.kiranastore.feature_transactions.model;
 
 import com.jarapplication.kiranastore.feature_transactions.enums.CurrencyCode;
 import com.jarapplication.kiranastore.feature_transactions.enums.TransactionType;
-import lombok.Data;
-
 import java.util.List;
+import lombok.Data;
 
 @Data
 public class TransactionDto {
@@ -15,5 +14,4 @@ public class TransactionDto {
     private TransactionType transactionType;
     private double amountInINR;
     private List<BillItem> billItems;
-
 }

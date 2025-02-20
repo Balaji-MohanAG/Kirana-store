@@ -4,13 +4,12 @@ import com.jarapplication.kiranastore.constants.HttpStatusCode;
 import com.jarapplication.kiranastore.feature_products.models.Product;
 import com.jarapplication.kiranastore.feature_products.service.ProductServiceImp;
 import com.jarapplication.kiranastore.response.ApiResponse;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
-
 
 @RestController
 @RequestMapping("/v1/api/products")
@@ -25,6 +24,7 @@ public class ProductController {
 
     /**
      * Retrive products by types by pages
+     *
      * @param category
      * @param page
      * @param size
@@ -44,6 +44,7 @@ public class ProductController {
 
     /**
      * Add new product
+     *
      * @param product
      * @return
      */
@@ -53,11 +54,12 @@ public class ProductController {
         Product result = productService.save(product);
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setData(result);
-        return new ResponseEntity<>(apiResponse,HttpStatus.OK);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     /**
      * Get all products by pages
+     *
      * @param page
      * @param size
      * @return

@@ -1,17 +1,15 @@
 package com.jarapplication.kiranastore.utils;
 
-
 import com.jarapplication.kiranastore.constants.SecurityConstants;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.stereotype.Component;
-
 import java.security.Key;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Function;
+import org.springframework.stereotype.Component;
 
 @Component
 public class JwtUtil {
@@ -19,37 +17,39 @@ public class JwtUtil {
 
     /**
      * Generates JWT token
+     *
      * @param username
      * @param roles
      * @param userId
      * @return
      */
-    public String generateToken(String username, List<String> roles, String userId,String sessionId) {
+    public String generateToken(
+            String username, List<String> roles, String userId, String sessionId) {
         return Jwts.builder()
                 .setSubject(username)
                 .claim("roles", roles)
                 .claim("userId", userId)
                 .claim("sessionId", sessionId)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.ACCESS_TOKEN_EXPIRATION_TIME))
+                .setExpiration(
+                        new Date(
+                                System.currentTimeMillis()
+                                        + SecurityConstants.ACCESS_TOKEN_EXPIRATION_TIME))
                 .signWith(SECRET_KEY, SignatureAlgorithm.HS256)
                 .compact();
     }
 
     /**
      * Validates JWT token
+     *
      * @param token
      * @return
      */
     public boolean isvalidateToken(String token) {
         try {
-            Jwts.parserBuilder()
-                    .setSigningKey(SECRET_KEY)
-                    .build()
-                    .parseClaimsJws(token);
-            return  !isTokenExpired(token);
-        }
-        catch (Exception e){
+            Jwts.parserBuilder().setSigningKey(SECRET_KEY).build().parseClaimsJws(token);
+            return !isTokenExpired(token);
+        } catch (Exception e) {
 
             return false;
         }
@@ -57,6 +57,7 @@ public class JwtUtil {
 
     /**
      * Extracts Roles from JWT token
+     *
      * @param token
      * @return
      */
@@ -66,6 +67,7 @@ public class JwtUtil {
 
     /**
      * Extracts user id from JWT token
+     *
      * @param token
      * @return
      */
@@ -75,6 +77,7 @@ public class JwtUtil {
 
     /**
      * Extracts session id from JWT token
+     *
      * @param token
      * @return
      */
@@ -84,6 +87,7 @@ public class JwtUtil {
 
     /**
      * Extracts username from JWT token
+     *
      * @param token
      * @return
      */
@@ -93,6 +97,7 @@ public class JwtUtil {
 
     /**
      * Extracts expiration time from JWT token
+     *
      * @param token
      * @return
      */
@@ -102,6 +107,7 @@ public class JwtUtil {
 
     /**
      * Checks if the token is expired
+     *
      * @param token
      * @return
      */
@@ -111,17 +117,19 @@ public class JwtUtil {
 
     /**
      * Extracts claims from JWT token
+     *
      * @param token
      * @param claimsResolver
      * @return
      * @param <T>
      */
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = Jwts.parserBuilder()
-                .setSigningKey(SECRET_KEY)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+        final Claims claims =
+                Jwts.parserBuilder()
+                        .setSigningKey(SECRET_KEY)
+                        .build()
+                        .parseClaimsJws(token)
+                        .getBody();
         return claimsResolver.apply(claims);
     }
 }

@@ -2,18 +2,18 @@ package com.jarapplication.kiranastore.feature_products.dao;
 
 import com.jarapplication.kiranastore.feature_products.entities.ProductEntity;
 import com.jarapplication.kiranastore.feature_products.repository.ProductRepository;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
-
 @Component
 public class ProductDao {
 
     private final ProductRepository productRepository;
+
     @Autowired
     public ProductDao(ProductRepository productRepository) {
         this.productRepository = productRepository;
@@ -21,6 +21,7 @@ public class ProductDao {
 
     /**
      * Retrieves Page of products of the given type
+     *
      * @param category
      * @param page
      * @param size
@@ -33,6 +34,7 @@ public class ProductDao {
 
     /**
      * Retrieves Page of products
+     *
      * @param page
      * @param size
      * @return
@@ -44,6 +46,7 @@ public class ProductDao {
 
     /**
      * Adds a product
+     *
      * @param productEntity
      * @return
      */
@@ -53,6 +56,7 @@ public class ProductDao {
 
     /**
      * Retrieves product by name
+     *
      * @param productName
      * @return
      */

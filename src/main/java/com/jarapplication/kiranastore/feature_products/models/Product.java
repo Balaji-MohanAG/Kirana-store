@@ -6,8 +6,7 @@ import lombok.Data;
 @Data
 public class Product {
 
-    @Capitalize
-    private String name;
+    @Capitalize private String name;
     private String type;
     private double price;
 }

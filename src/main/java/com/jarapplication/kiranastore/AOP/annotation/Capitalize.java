@@ -5,12 +5,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-/**
- * Captialize annotations for specific fields
- */
+/** Captialize annotations for specific fields */
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Capitalize {
-
-}
-
+public @interface Capitalize {}

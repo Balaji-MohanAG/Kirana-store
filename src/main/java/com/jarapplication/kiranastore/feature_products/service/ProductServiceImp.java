@@ -1,15 +1,13 @@
 package com.jarapplication.kiranastore.feature_products.service;
 
-
-import com.jarapplication.kiranastore.feature_products.models.Product;
 import com.jarapplication.kiranastore.feature_products.dao.ProductDao;
 import com.jarapplication.kiranastore.feature_products.entities.ProductEntity;
+import com.jarapplication.kiranastore.feature_products.models.Product;
 import com.jarapplication.kiranastore.feature_products.utils.ProductDtoUtil;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class ProductServiceImp implements ProductService {
@@ -24,6 +22,7 @@ public class ProductServiceImp implements ProductService {
 
     /**
      * Retrieve products by type with pagination
+     *
      * @param category
      * @param page
      * @param size
@@ -31,7 +30,7 @@ public class ProductServiceImp implements ProductService {
      */
     @Override
     public Page<Product> findByType(String category, int page, int size) {
-        if(category==null){
+        if (category == null) {
             throw new IllegalArgumentException("category is null");
         }
         Page<ProductEntity> productEntities = productDao.findByType(category, page, size);
@@ -40,6 +39,7 @@ public class ProductServiceImp implements ProductService {
 
     /**
      * Retrive products by name
+     *
      * @param name
      * @return
      */
@@ -54,6 +54,7 @@ public class ProductServiceImp implements ProductService {
 
     /**
      * Retrieve all products with pagination
+     *
      * @param page
      * @param size
      * @return
@@ -66,12 +67,13 @@ public class ProductServiceImp implements ProductService {
 
     /**
      * Adding a new product
+     *
      * @param product
      * @return
      */
     @Override
     public Product save(Product product) {
-        if(product == null){
+        if (product == null) {
             throw new IllegalArgumentException("Product cannot be null");
         }
         ProductEntity productEntity = productDao.save(ProductDtoUtil.convertToEntity(product));

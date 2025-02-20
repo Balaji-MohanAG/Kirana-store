@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.4.2'
     id 'io.spring.dependency-management' version '1.1.7'
+    id "com.diffplug.spotless" version "6.17.0"
 }
 
 group = 'com.JarApplication'
@@ -16,6 +17,16 @@ java {
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
+    }
+}
+
+spotless {
+    java {
+//        googleJavaFormat()
+        // optional: you can specify a specific version (>= 1.8) and/or switch to AOSP style
+        //   and/or reflow long strings
+        //   and/or use custom group artifact (you probably don't need this)
+        googleJavaFormat('1.23.0').aosp().reflowLongStrings().groupArtifact('com.google.googlejavaformat:google-java-format')
     }
 }
 

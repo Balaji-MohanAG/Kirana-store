@@ -4,7 +4,7 @@ import java.util.Calendar;
 
 public class DateUtil {
 
-    public static long getEndOfMinute(){
+    public static long getEndOfMinute() {
         Calendar calendar = Calendar.getInstance();
 
         calendar.set(Calendar.SECOND, 0);

@@ -3,13 +3,13 @@ package com.jarapplication.kiranastore.feature_transactions.util;
 import com.jarapplication.kiranastore.feature_transactions.entity.BillEntity;
 import com.jarapplication.kiranastore.feature_transactions.model.PurchaseRequest;
 import com.jarapplication.kiranastore.feature_transactions.model.TransactionDto;
-
 import java.util.Date;
 
 public class BillDtoUtil {
 
     /**
      * Transforms into BillEntity
+     *
      * @param purchaseRequest
      * @param billAmount
      * @return
@@ -26,11 +26,12 @@ public class BillDtoUtil {
 
     /**
      * Transforms into transactionDto
+     *
      * @param billEntity
      * @param amountInINR
      * @return
      */
-    public static TransactionDto  toTransactionDto(BillEntity billEntity, double amountInINR) {
+    public static TransactionDto toTransactionDto(BillEntity billEntity, double amountInINR) {
         TransactionDto transactionDto = new TransactionDto();
         transactionDto.setUserId(billEntity.getUserId());
         transactionDto.setBillId(billEntity.getBillId());
@@ -40,5 +41,4 @@ public class BillDtoUtil {
         transactionDto.setAmountInINR(amountInINR);
         return transactionDto;
     }
-
 }

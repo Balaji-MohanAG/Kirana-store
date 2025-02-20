@@ -1,11 +1,10 @@
 package com.jarapplication.kiranastore.feature_transactions.dao;
 
-import com.jarapplication.kiranastore.feature_transactions.repository.TransactionRepository;
 import com.jarapplication.kiranastore.feature_transactions.entity.TransactionEntity;
+import com.jarapplication.kiranastore.feature_transactions.repository.TransactionRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class TransactionDao {
@@ -19,6 +18,7 @@ public class TransactionDao {
 
     /**
      * Saves the transaction
+     *
      * @param transactionEntity
      * @return
      */
@@ -28,6 +28,7 @@ public class TransactionDao {
 
     /**
      * Retrieves all the Transactions based on bill id
+     *
      * @param billId
      * @return
      */

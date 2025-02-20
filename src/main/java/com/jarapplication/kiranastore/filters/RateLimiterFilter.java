@@ -1,26 +1,25 @@
 package com.jarapplication.kiranastore.filters;
 
+import io.github.bucket4j.Bandwidth;
+import io.github.bucket4j.Bucket;
+import io.github.bucket4j.Refill;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.time.Duration;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import io.github.bucket4j.Bucket;
-import io.github.bucket4j.Bandwidth;
-import io.github.bucket4j.Refill;
-import java.io.IOException;
-import java.time.Duration;
-
 @Component
 public class RateLimiterFilter extends OncePerRequestFilter {
-
 
     Bucket bucket = this.createNewBucket();
 
     /**
      * Creates a Bucket with tokens for 100 per minutes
+     *
      * @return Bucket
      */
     private Bucket createNewBucket() {
@@ -31,6 +30,7 @@ public class RateLimiterFilter extends OncePerRequestFilter {
 
     /**
      * Adds a filter for rate limiting
+     *
      * @param request
      * @param response
      * @param filterChain
@@ -38,7 +38,8 @@ public class RateLimiterFilter extends OncePerRequestFilter {
      * @throws IOException
      */
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+    protected void doFilterInternal(
+            HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
         if (!bucket.tryConsume(1)) {
