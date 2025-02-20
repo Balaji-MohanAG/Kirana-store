@@ -35,3 +35,8 @@ out/
 
 ### VS Code ###
 .vscode/
+
+kafka
+logs
+logstash
+infrastructure
