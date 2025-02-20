@@ -10,6 +10,7 @@ public class FxRatesApiServiceImp implements FxRatesApiService {
 
     /**
      * Fetches the exchange rate
+     *
      * @return
      */
     @Override

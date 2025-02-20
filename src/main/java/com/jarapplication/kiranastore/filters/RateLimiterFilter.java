@@ -7,10 +7,10 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.time.Duration;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 @Component
 public class RateLimiterFilter extends OncePerRequestFilter {
@@ -19,6 +19,7 @@ public class RateLimiterFilter extends OncePerRequestFilter {
 
     /**
      * Creates a Bucket with tokens for 100 per minutes
+     *
      * @return Bucket
      */
     private Bucket createNewBucket() {
@@ -29,6 +30,7 @@ public class RateLimiterFilter extends OncePerRequestFilter {
 
     /**
      * Adds a filter for rate limiting
+     *
      * @param request
      * @param response
      * @param filterChain
@@ -40,7 +42,7 @@ public class RateLimiterFilter extends OncePerRequestFilter {
             HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        if(request.getServletPath().startsWith("/actuators/**")){
+        if (request.getServletPath().startsWith("/actuators/**")) {
             filterChain.doFilter(request, response);
             return;
         }

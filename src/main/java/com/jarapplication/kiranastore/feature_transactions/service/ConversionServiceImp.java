@@ -23,6 +23,7 @@ public class ConversionServiceImp implements ConversionService {
 
     /**
      * calculates the conversion rate
+     *
      * @param currencyCode
      * @return
      * @throws JSONException

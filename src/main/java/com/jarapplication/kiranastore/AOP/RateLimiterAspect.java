@@ -23,6 +23,7 @@ public class RateLimiterAspect {
 
     /**
      * Executes the function when annotated
+     *
      * @param joinPoint
      * @throws IllegalAccessException
      */
@@ -45,7 +46,7 @@ public class RateLimiterAspect {
         Bucket bucket = rateLimiterHashMap.get(method);
 
         if (bucket.tryConsume(1)) {
-            return joinPoint.proceed();  // Proceed with the method execution
+            return joinPoint.proceed(); // Proceed with the method execution
         } else {
             throw new RateLimitExceededException("Too many requests. Please try again later.");
         }
