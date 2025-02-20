@@ -29,10 +29,10 @@ public class JwtFilter extends OncePerRequestFilter {
         this.jwtUtil = jwtUtil;
         this.userDetailsService = userDetailsService;
     }
-
     @Override
-    protected void doFilterInternal(
-            HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain)
             throws ServletException, IOException {
         try {
             if (request.getServletPath().equals("/login")
@@ -77,7 +77,7 @@ public class JwtFilter extends OncePerRequestFilter {
         } catch (Exception e) {
             ApiResponse apiResponse = new ApiResponse();
             apiResponse.setStatus("500");
-            apiResponse.setError("Handled");
+            apiResponse.setError("Invalid or expired JWT.");
             response.getWriter().write(apiResponse.toString());
         }
     }

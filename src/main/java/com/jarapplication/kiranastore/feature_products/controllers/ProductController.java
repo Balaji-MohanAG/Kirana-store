@@ -1,5 +1,6 @@
 package com.jarapplication.kiranastore.feature_products.controllers;
 
+import com.jarapplication.kiranastore.AOP.annotation.RateLimiter;
 import com.jarapplication.kiranastore.constants.HttpStatusCode;
 import com.jarapplication.kiranastore.feature_products.models.Product;
 import com.jarapplication.kiranastore.feature_products.service.ProductServiceImp;
@@ -65,6 +66,7 @@ public class ProductController {
      * @return
      */
     @GetMapping
+    @RateLimiter(limit = 5)
     public ApiResponse getAllProducts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {

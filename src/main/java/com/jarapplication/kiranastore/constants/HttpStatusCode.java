@@ -1,7 +1,5 @@
 package com.jarapplication.kiranastore.constants;
 
-import org.springframework.http.HttpStatus;
-
 public class HttpStatusCode {
     public static final String OK = "200";
     public static final String CREATED = "201";
@@ -10,7 +8,6 @@ public class HttpStatusCode {
     public static final String MOVED_PERMANENTLY = "301";
     public static final String FOUND = "302";
     public static final String NOT_MODIFIED = "304";
-    public static final HttpStatus NOT_MODIFIED1 = HttpStatus.CREATED;
 
     public static final String BAD_REQUEST = "400";
     public static final String UNAUTHORIZED = "401";

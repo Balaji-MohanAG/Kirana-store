@@ -1,13 +1,18 @@
 package com.jarapplication.kiranastore.feature_transactions.util;
 
-import com.jarapplication.kiranastore.feature_transactions.entity.TransactionEntity;
 import com.jarapplication.kiranastore.feature_transactions.enums.TransactionType;
+import com.jarapplication.kiranastore.feature_transactions.entity.TransactionEntity;
+import com.jarapplication.kiranastore.feature_transactions.model.PurchaseResponse;
 import com.jarapplication.kiranastore.feature_transactions.model.TransactionDto;
 import java.util.Date;
 
 public class TransactionDtoUtil {
-    public static TransactionEntity TransactionEntityDTO(
-            TransactionDto transactionDto, TransactionType transactionType) {
+    /**
+     * DTO for transaction Entity
+     * @param transactionDto
+     * @return
+     */
+    public static TransactionEntity TransactionEntityDTO(TransactionDto transactionDto) {
         TransactionEntity transactionEntity = new TransactionEntity();
         transactionEntity.setTransactionType(TransactionType.PURCHASE);
         transactionEntity.setBillId(transactionDto.getBillId());
@@ -25,5 +30,13 @@ public class TransactionDtoUtil {
         transactionEntity.setAmount(refundAmount);
         transactionEntity.setDate(new Date());
         return transactionEntity;
+    }
+    public static PurchaseResponse transactionResponseDto(TransactionDto transactionDto) {
+        PurchaseResponse purchaseResponseDto = new PurchaseResponse();
+        purchaseResponseDto.setBillId(transactionDto.getBillId());
+        purchaseResponseDto.setAmount(transactionDto.getAmount());
+        purchaseResponseDto.setBillItems(transactionDto.getBillItems());
+        purchaseResponseDto.setTransactionType(transactionDto.getTransactionType());
+        return purchaseResponseDto;
     }
 }

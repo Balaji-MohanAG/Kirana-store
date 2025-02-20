@@ -48,6 +48,7 @@ public class SecurityConfig {
                             // if the user role is not matched, the exception is handled from here
                             exceptionHandlingConfigurer.accessDeniedHandler(
                                     (request, res, e) -> {
+                                        String bearerToken = request.getHeader("Authorization");
                                         ApiResponse apiResponse = new ApiResponse();
                                         apiResponse.setSuccess(false);
                                         apiResponse.setErrorCode("403a");

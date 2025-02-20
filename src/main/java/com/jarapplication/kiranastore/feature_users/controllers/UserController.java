@@ -1,5 +1,6 @@
 package com.jarapplication.kiranastore.feature_users.controllers;
 
+import com.jarapplication.kiranastore.AOP.annotation.RateLimiter;
 import com.jarapplication.kiranastore.constants.HttpStatusCode;
 import com.jarapplication.kiranastore.feature_users.models.UserRequest;
 import com.jarapplication.kiranastore.feature_users.service.AuthService;
@@ -28,6 +29,7 @@ public class UserController {
      * @param userRequest
      * @return
      */
+    @RateLimiter(limit = 5)
     @PostMapping("/login")
     public ApiResponse login(@RequestBody UserRequest userRequest) {
         ApiResponse apiResponse = new ApiResponse();

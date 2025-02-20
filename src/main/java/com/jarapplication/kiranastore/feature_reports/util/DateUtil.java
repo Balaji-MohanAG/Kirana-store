@@ -6,7 +6,6 @@ import java.util.Date;
 public class DateUtil {
     /**
      * Gets the exact start of the date
-     *
      * @param date
      * @return
      */
@@ -20,6 +19,11 @@ public class DateUtil {
         return calendar.getTime();
     }
 
+    /**
+     *Gets the exact end of the date
+     * @param date
+     * @return
+     */
     public static Date getEndOfDay(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -30,27 +34,62 @@ public class DateUtil {
         return calendar.getTime();
     }
 
+    /**
+     * Gets the exact start of the week
+     * @param weekNumber
+     * @param month
+     * @param year
+     * @return
+     */
     public static Date getStartOfWeek(int weekNumber, int month, int year) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, month - 1); // 0-based index
+        calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.WEEK_OF_MONTH, weekNumber);
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         return getStartOfDay(calendar.getTime());
     }
 
-    public static Date getStartOfMonth(int month, int year) {
+    /**
+     * Gets the exact end of the week
+     * @param weekNumber
+     * @param month
+     * @param year
+     * @return
+     */
+    public static Date getEndOfWeek(int weekNumber, int month, int year) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month - 1); // 0-based index
+        calendar.set(Calendar.WEEK_OF_MONTH, weekNumber);
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        return getEndOfDay(calendar.getTime());
+    }
+
+    /**
+     * Gets the exact start of the month
+     * @param month
+     * @param year
+     * @return
+     */
+    public static Date getStartOfMonth(int month, int year) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, 1);
         return getStartOfDay(calendar.getTime());
     }
 
+    /**
+     * gets the exact end of the month
+     * @param month
+     * @param year
+     * @return
+     */
     public static Date getEndOfMonth(int month, int year) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, month - 1); // 0-based index
+        calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
         return getEndOfDay(calendar.getTime());
     }

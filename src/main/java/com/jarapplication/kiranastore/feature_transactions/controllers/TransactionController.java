@@ -40,9 +40,9 @@ public class TransactionController {
         String jwt = token.replace(TOKEN_PREFIX, "");
         String userId = jwtUtil.extractUserId(jwt);
         String billId = request.getBillId();
-        transactionServiceImpl.makeRefund(billId, userId);
+        String result = transactionServiceImpl.makeRefund(billId, userId);
         ApiResponse apiResponse = new ApiResponse();
-        apiResponse.setData("Refunded");
+        apiResponse.setData(result);
         apiResponse.setStatus(HttpStatusCode.OK);
         return apiResponse;
     }
