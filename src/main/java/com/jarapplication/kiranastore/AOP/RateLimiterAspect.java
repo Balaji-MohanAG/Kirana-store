@@ -31,11 +31,8 @@ public class RateLimiterAspect {
     public Object rateLimit(ProceedingJoinPoint joinPoint) throws Throwable {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
-        // Get the annotation
         RateLimiter rateLimiter = method.getAnnotation(RateLimiter.class);
-
         int limit = rateLimiter.limit();
-
         rateLimiterHashMap.putIfAbsent(
                 method,
                 Bucket.builder()
@@ -44,7 +41,6 @@ public class RateLimiterAspect {
                                         limit, Refill.greedy(limit, Duration.ofMinutes(1))))
                         .build());
         Bucket bucket = rateLimiterHashMap.get(method);
-
         if (bucket.tryConsume(1)) {
             return joinPoint.proceed(); // Proceed with the method execution
         } else {

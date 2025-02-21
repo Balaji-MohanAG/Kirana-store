@@ -1,5 +1,7 @@
 package com.jarapplication.kiranastore.utils;
 
+import static com.jarapplication.kiranastore.constants.SecurityConstants.*;
+
 import com.jarapplication.kiranastore.constants.SecurityConstants;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -27,9 +29,9 @@ public class JwtUtil {
             String username, List<String> roles, String userId, String sessionId) {
         return Jwts.builder()
                 .setSubject(username)
-                .claim("roles", roles)
-                .claim("userId", userId)
-                .claim("sessionId", sessionId)
+                .claim(ROLES, roles)
+                .claim(USER_ID, userId)
+                .claim(SESSION_ID, sessionId)
                 .setIssuedAt(new Date())
                 .setExpiration(
                         new Date(
@@ -45,7 +47,7 @@ public class JwtUtil {
      * @param token
      * @return
      */
-    public boolean isvalidateToken(String token) {
+    public boolean isValidateToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(SECRET_KEY).build().parseClaimsJws(token);
             return !isTokenExpired(token);
@@ -62,7 +64,7 @@ public class JwtUtil {
      * @return
      */
     public List<String> extractRoles(String token) {
-        return extractClaim(token, claims -> claims.get("roles", List.class));
+        return extractClaim(token, claims -> claims.get(ROLES, List.class));
     }
 
     /**
@@ -72,7 +74,7 @@ public class JwtUtil {
      * @return
      */
     public String extractUserId(String token) {
-        return extractClaim(token, claims -> claims.get("userId", String.class));
+        return extractClaim(token, claims -> claims.get(USER_ID, String.class));
     }
 
     /**
@@ -82,7 +84,7 @@ public class JwtUtil {
      * @return
      */
     public String extractSessionId(String token) {
-        return extractClaim(token, claims -> claims.get("sessionId", String.class));
+        return extractClaim(token, claims -> claims.get(SESSION_ID, String.class));
     }
 
     /**

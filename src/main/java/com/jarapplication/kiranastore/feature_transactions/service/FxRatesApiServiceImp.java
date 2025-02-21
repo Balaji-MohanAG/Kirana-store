@@ -1,5 +1,8 @@
 package com.jarapplication.kiranastore.feature_transactions.service;
 
+import static com.jarapplication.kiranastore.feature_transactions.constants.Constants.FXRATES_URL;
+import static com.jarapplication.kiranastore.feature_transactions.constants.LogConstants.FXRATES_INTERNAL_ERROR;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -15,7 +18,10 @@ public class FxRatesApiServiceImp implements FxRatesApiService {
      */
     @Override
     public Object fetchData() {
-        String url = "https://api.fxratesapi.com/latest";
-        return restTemplate.getForObject(url, String.class);
+        try {
+            return restTemplate.getForObject(FXRATES_URL, String.class);
+        } catch (Exception e) {
+            throw new RuntimeException(FXRATES_INTERNAL_ERROR);
+        }
     }
 }

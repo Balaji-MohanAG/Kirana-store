@@ -1,5 +1,8 @@
 package com.jarapplication.kiranastore.auth.controller;
 
+import static com.jarapplication.kiranastore.auth.constants.HeaderConstants.AUTHORIZATION;
+import static com.jarapplication.kiranastore.auth.constants.HeaderConstants.REFRESH_TOKEN;
+
 import com.jarapplication.kiranastore.auth.service.RefreshTokenService;
 import com.jarapplication.kiranastore.feature_users.models.AuthResponse;
 import javax.naming.AuthenticationException;
@@ -29,8 +32,8 @@ public class RefreshController {
      */
     @GetMapping("/generate-token")
     public AuthResponse refreshAccessToken(
-            @RequestHeader("Authorization") String accessToken,
-            @RequestHeader("Refresh-Token") String refreshToken)
+            @RequestHeader(AUTHORIZATION) String accessToken,
+            @RequestHeader(REFRESH_TOKEN) String refreshToken)
             throws AuthenticationException {
         return refreshTokenService.generateAccessToken(refreshToken, accessToken);
     }

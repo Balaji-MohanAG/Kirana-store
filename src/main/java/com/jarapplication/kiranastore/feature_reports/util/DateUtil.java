@@ -47,9 +47,9 @@ public class DateUtil {
     public static Date getStartOfWeek(int weekNumber, int month, int year) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.MONTH, month - 1);
         calendar.set(Calendar.WEEK_OF_MONTH, weekNumber);
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
         return getStartOfDay(calendar.getTime());
     }
 
@@ -66,7 +66,7 @@ public class DateUtil {
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month - 1); // 0-based index
         calendar.set(Calendar.WEEK_OF_MONTH, weekNumber);
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
         return getEndOfDay(calendar.getTime());
     }
 
@@ -97,6 +97,32 @@ public class DateUtil {
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        return getEndOfDay(calendar.getTime());
+    }
+
+    /**
+     * gets the exact start of the year
+     *
+     * @param year
+     * @return
+     */
+    public static Date getStartOfYear(int year) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.DAY_OF_YEAR, 1);
+        return getStartOfDay(calendar.getTime());
+    }
+
+    /**
+     * gets the exact end of the year
+     *
+     * @param year
+     * @return
+     */
+    public static Date getEndOfYear(int year) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.DAY_OF_YEAR, calendar.getActualMaximum(Calendar.DAY_OF_YEAR));
         return getEndOfDay(calendar.getTime());
     }
 }

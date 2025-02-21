@@ -24,7 +24,7 @@ public class ReportService {
      */
     public List<TransactionEntity> getWeeklyReport() {
         Calendar calendar = Calendar.getInstance();
-        int lastWeekNumber = calendar.get(Calendar.WEEK_OF_YEAR);
+        int lastWeekNumber = calendar.get(Calendar.WEEK_OF_YEAR) - 1;
         int lastMonth = calendar.get(Calendar.MONTH);
         int lastYear = calendar.get(Calendar.YEAR);
         return reportDao.getTransactionsForWeek(lastWeekNumber, lastMonth, lastYear);
@@ -37,7 +37,7 @@ public class ReportService {
      */
     public List<TransactionEntity> getMonthlyReport() {
         Calendar calendar = Calendar.getInstance();
-        int lastMonth = calendar.get(Calendar.MONTH);
+        int lastMonth = calendar.get(Calendar.MONTH) - 1;
         int lastYear = calendar.get(Calendar.YEAR);
         return reportDao.getTransactionsForMonth(lastMonth, lastYear);
     }
@@ -49,8 +49,7 @@ public class ReportService {
      */
     public List<TransactionEntity> getYearlyReport() {
         Calendar calendar = Calendar.getInstance();
-        int lastMonth = calendar.get(Calendar.MONTH);
-        int lastYear = calendar.get(Calendar.YEAR);
-        return reportDao.getTransactionsForMonth(lastMonth, lastYear);
+        int lastYear = calendar.get(Calendar.YEAR) - 1;
+        return reportDao.getTransactionsForYear(lastYear);
     }
 }

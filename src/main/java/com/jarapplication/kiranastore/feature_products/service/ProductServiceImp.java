@@ -1,5 +1,7 @@
 package com.jarapplication.kiranastore.feature_products.service;
 
+import static com.jarapplication.kiranastore.feature_products.constants.LogConstants.*;
+
 import com.jarapplication.kiranastore.feature_products.dao.ProductDao;
 import com.jarapplication.kiranastore.feature_products.entities.ProductEntity;
 import com.jarapplication.kiranastore.feature_products.models.Product;
@@ -31,7 +33,7 @@ public class ProductServiceImp implements ProductService {
     @Override
     public Page<Product> findByType(String category, int page, int size) {
         if (category == null) {
-            throw new IllegalArgumentException("category is null");
+            throw new IllegalArgumentException(CATEGORY_IS_NULL);
         }
         Page<ProductEntity> productEntities = productDao.findByType(category, page, size);
         return productEntities.map(ProductDtoUtil::convertToDTO);
@@ -46,7 +48,7 @@ public class ProductServiceImp implements ProductService {
     @Override
     public Optional<Product> findByName(String name) {
         if (name == null || name.isEmpty()) {
-            throw new IllegalArgumentException("Name cannot be null or empty");
+            throw new IllegalArgumentException(NAME_IS_NULL_OR_EMPTY);
         }
         Optional<ProductEntity> product = productDao.findProductByName(name);
         return product.map(ProductDtoUtil::convertToDTO);
@@ -74,7 +76,7 @@ public class ProductServiceImp implements ProductService {
     @Override
     public Product save(Product product) {
         if (product == null) {
-            throw new IllegalArgumentException("Product cannot be null");
+            throw new IllegalArgumentException(PRODUCT_IS_NULL);
         }
         ProductEntity productEntity = productDao.save(ProductDtoUtil.convertToEntity(product));
         return ProductDtoUtil.convertToDTO(productEntity);

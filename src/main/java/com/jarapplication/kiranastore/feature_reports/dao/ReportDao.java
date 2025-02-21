@@ -5,12 +5,14 @@ import static com.jarapplication.kiranastore.feature_reports.util.DateUtil.*;
 import com.jarapplication.kiranastore.feature_transactions.entity.TransactionEntity;
 import com.jarapplication.kiranastore.feature_transactions.repository.TransactionRepository;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class ReportDao {
-    private TransactionRepository transactionRepository;
+    private final TransactionRepository transactionRepository;
 
     @Autowired
     public ReportDao(TransactionRepository transactionRepository) {
@@ -26,6 +28,11 @@ public class ReportDao {
      * @return
      */
     public List<TransactionEntity> getTransactionsForWeek(int weekNumber, int month, int year) {
+        log.info(
+                "Generating report for transactions from "
+                        + getStartOfWeek(weekNumber, month, year)
+                        + " to "
+                        + getEndOfWeek(weekNumber, month, year));
         return transactionRepository.findTransactionsByDateRange(
                 getStartOfWeek(weekNumber, month, year), getEndOfWeek(weekNumber, month, year));
     }
@@ -38,7 +45,28 @@ public class ReportDao {
      * @return
      */
     public List<TransactionEntity> getTransactionsForMonth(int month, int year) {
+        log.info(
+                "Generating report for transactions from "
+                        + getStartOfMonth(month, year)
+                        + " to "
+                        + getEndOfMonth(month, year));
         return transactionRepository.findTransactionsByDateRange(
                 getStartOfMonth(month, year), getEndOfMonth(month, year));
+    }
+
+    /**
+     * Retrieve transactions for a year
+     *
+     * @param year
+     * @return
+     */
+    public List<TransactionEntity> getTransactionsForYear(int year) {
+        log.info(
+                "Generating report for transactions from "
+                        + getStartOfYear(year)
+                        + " to "
+                        + getEndOfYear(year));
+        return transactionRepository.findTransactionsByDateRange(
+                getStartOfYear(year), getEndOfYear(year));
     }
 }

@@ -1,13 +1,13 @@
 package com.jarapplication.kiranastore.feature_users.controllers;
 
 import com.jarapplication.kiranastore.AOP.annotation.RateLimiter;
-import com.jarapplication.kiranastore.constants.HttpStatusCode;
 import com.jarapplication.kiranastore.feature_users.models.UserRequest;
 import com.jarapplication.kiranastore.feature_users.service.AuthService;
 import com.jarapplication.kiranastore.feature_users.service.AuthServiceImp;
 import com.jarapplication.kiranastore.feature_users.service.UserServiceImp;
 import com.jarapplication.kiranastore.response.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -33,7 +33,7 @@ public class UserController {
     @PostMapping("/login")
     public ApiResponse login(@RequestBody UserRequest userRequest) {
         ApiResponse apiResponse = new ApiResponse();
-        apiResponse.setStatus(HttpStatusCode.CREATED);
+        apiResponse.setStatus(HttpStatus.ACCEPTED.name());
         apiResponse.setData(
                 authService.authenticate(userRequest.getUsername(), userRequest.getPassword()));
         return apiResponse;
@@ -49,7 +49,7 @@ public class UserController {
     public ApiResponse register(@RequestBody UserRequest userRequest) {
         UserRequest savedUserRequest = userService.save(userRequest);
         ApiResponse apiResponse = new ApiResponse();
-        apiResponse.setStatus(HttpStatusCode.CREATED);
+        apiResponse.setStatus(HttpStatus.CREATED.name());
         apiResponse.setData(savedUserRequest);
         return apiResponse;
     }

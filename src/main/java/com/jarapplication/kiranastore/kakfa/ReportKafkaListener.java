@@ -1,5 +1,7 @@
 package com.jarapplication.kiranastore.kakfa;
 
+import static com.jarapplication.kiranastore.constants.KafkaConstants.*;
+
 import com.jarapplication.kiranastore.feature_reports.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -20,17 +22,17 @@ public class ReportKafkaListener {
      *
      * @param message
      */
-    @KafkaListener(topics = "test-topic")
+    @KafkaListener(topics = KAFKA_TOPIC)
     public void processUserAttributionEvent(String message) {
 
-        if (message.equals("Weekly Report")) {
+        if (message.equals(WEEKlY_REPORT)) {
             System.out.println(reportService.getWeeklyReport());
         }
-        if (message.equals("Monthly Report")) {
-            System.out.println(reportService.getWeeklyReport());
+        if (message.equals(MONTHLY_REPORT)) {
+            System.out.println(reportService.getMonthlyReport());
         }
-        if (message.equals("Yearly Report")) {
-            System.out.println(reportService.getWeeklyReport());
+        if (message.equals(YEARLY_REPORT)) {
+            System.out.println(reportService.getYearlyReport());
         }
     }
 }

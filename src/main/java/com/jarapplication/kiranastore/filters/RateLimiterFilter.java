@@ -1,5 +1,7 @@
 package com.jarapplication.kiranastore.filters;
 
+import static com.jarapplication.kiranastore.constants.LogConstants.TOO_MANY_REQUESTS;
+
 import io.github.bucket4j.Bandwidth;
 import io.github.bucket4j.Bucket;
 import io.github.bucket4j.Refill;
@@ -49,7 +51,7 @@ public class RateLimiterFilter extends OncePerRequestFilter {
         if (!bucket.tryConsume(1)) {
 
             response.setStatus(429);
-            response.getWriter().write("Too Many Requests");
+            response.getWriter().write(TOO_MANY_REQUESTS);
             return;
         }
 

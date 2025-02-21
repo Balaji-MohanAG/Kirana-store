@@ -25,7 +25,12 @@ public class CalculateBill {
      */
     public double calculateBill(PurchaseRequest purchaseRequest) {
         double totalAmount = 0.0;
+
         List<BillItem> billItems = purchaseRequest.getBillItems();
+        if (billItems == null || billItems.isEmpty()) {
+            return totalAmount;
+        }
+
         totalAmount +=
                 billItems.stream()
                         .map(

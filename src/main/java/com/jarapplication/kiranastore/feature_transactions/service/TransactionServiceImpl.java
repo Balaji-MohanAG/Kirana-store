@@ -1,5 +1,7 @@
 package com.jarapplication.kiranastore.feature_transactions.service;
 
+import static com.jarapplication.kiranastore.feature_transactions.constants.Constants.REFUND_SUCCESSFUL;
+import static com.jarapplication.kiranastore.feature_transactions.constants.LogConstants.*;
 import static com.jarapplication.kiranastore.feature_transactions.util.TransactionDtoUtil.TransactionEntityDTO;
 import static com.jarapplication.kiranastore.feature_transactions.util.TransactionDtoUtil.transactionResponseDto;
 
@@ -38,24 +40,24 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public String makeRefund(String billId, String userId) {
         if (billId == null || userId == null) {
-            throw new IllegalArgumentException("billId and userId cannot be null");
+            throw new IllegalArgumentException(BILL_ID_AND_USERID_IS_NULL);
         }
         List<TransactionEntity> transactions = transactionDao.findByBillId(billId);
         if (transactions.isEmpty()) {
-            throw new RuntimeException("transaction not found");
+            throw new RuntimeException(TRANSACTION_NOT_FOUND);
         }
 
         for (TransactionEntity transactionEntity : transactions) {
             if (!transactionEntity.getUserId().equals(userId)) {
-                throw new RuntimeException("Transaction refund failed");
+                throw new RuntimeException(TRANSACTION_REFUND_FAILED);
             }
             if (transactionEntity.getTransactionType().equals(TransactionType.REFUND)) {
-                throw new RuntimeException("Refund transaction already exist");
+                throw new RuntimeException(TRANSACTION_ALREADY_REFUNDED);
             }
         }
         double amount = transactions.getFirst().getAmount();
         transactionDao.save(TransactionDtoUtil.toTransactionEntity(billId, userId, amount));
-        return "Refund successful";
+        return REFUND_SUCCESSFUL;
     }
 
     /**
@@ -68,7 +70,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public PurchaseResponse makePurchase(PurchaseRequest purchaseRequest) {
         if (purchaseRequest == null) {
-            throw new IllegalArgumentException("purchaseRequest cannot be null");
+            throw new IllegalArgumentException(PURCHASE_REQUEST_IS_NULL);
         }
         TransactionDto transactionDto = billingService.generateBills(purchaseRequest);
         transactionDao.save(TransactionEntityDTO(transactionDto));

@@ -1,5 +1,7 @@
 package com.jarapplication.kiranastore.feature_users.service;
 
+import static com.jarapplication.kiranastore.feature_users.constants.LogConstants.*;
+
 import com.jarapplication.kiranastore.feature_users.entity.User;
 import com.jarapplication.kiranastore.feature_users.repository.UserRepository;
 import java.util.List;
@@ -23,11 +25,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         if (username == null) {
-            throw new UsernameNotFoundException("username is null");
+            throw new UsernameNotFoundException(USER_NAME_IS_NULL_OR_EMPTY);
         }
         Optional<User> user = Optional.ofNullable(userRepository.findByUsername(username));
         if (user.isEmpty()) {
-            throw new UsernameNotFoundException("User not found");
+            throw new UsernameNotFoundException(USER_DOES_NOT_EXIST);
         }
         String userName = user.get().getUsername();
         List<String> roleNames = user.get().getRoles();

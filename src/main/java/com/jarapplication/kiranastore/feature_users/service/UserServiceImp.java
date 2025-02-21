@@ -1,5 +1,7 @@
 package com.jarapplication.kiranastore.feature_users.service;
 
+import static com.jarapplication.kiranastore.feature_users.constants.LogConstants.*;
+
 import com.jarapplication.kiranastore.AOP.annotation.CapitalizeMethod;
 import com.jarapplication.kiranastore.exception.UserNameExistsException;
 import com.jarapplication.kiranastore.feature_users.dao_users.UserDAO;
@@ -30,7 +32,7 @@ public class UserServiceImp implements UserService {
     @Override
     public List<String> getUserRolesByUsername(String username) {
         if (username == null || username.isEmpty()) {
-            throw new IllegalArgumentException("Username cannot be null or empty");
+            throw new IllegalArgumentException(USER_NAME_IS_NULL_OR_EMPTY);
         }
         return userDao.findByUsername(username).getRoles();
     }
@@ -44,7 +46,7 @@ public class UserServiceImp implements UserService {
     @Override
     public String getUserIdByUsername(String username) {
         if (username == null || username.isEmpty()) {
-            throw new IllegalArgumentException("Username cannot be null or empty");
+            throw new IllegalArgumentException(USER_NAME_IS_NULL_OR_EMPTY);
         }
         return userDao.findByUsername(username).getId();
     }
@@ -59,12 +61,12 @@ public class UserServiceImp implements UserService {
     @CapitalizeMethod
     public UserRequest save(UserRequest userRequest) {
         if (userRequest == null) {
-            throw new IllegalArgumentException("userRequest is null");
+            throw new IllegalArgumentException(USER_REQUEST_IS_NULL);
         }
         User user = UserDtoUtil.userDTO(userRequest);
         User userExists = userDao.findByUsername(user.getUsername());
         if (userExists != null) {
-            throw new UserNameExistsException("Username already exists");
+            throw new UserNameExistsException(USER_ALREADY_EXISTS);
         }
         user.setPassword(new BCryptPasswordEncoder().encode(userRequest.getPassword()));
         return UserDtoUtil.userEntityDTO(userDao.save(user));

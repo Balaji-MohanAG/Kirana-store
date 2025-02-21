@@ -1,5 +1,9 @@
 package com.jarapplication.kiranastore.feature_transactions.service;
 
+import static com.jarapplication.kiranastore.feature_transactions.constants.Constants.RATES;
+import static com.jarapplication.kiranastore.feature_transactions.constants.Constants.SUCCESS;
+import static com.jarapplication.kiranastore.feature_transactions.constants.LogConstants.*;
+
 import com.jarapplication.kiranastore.cache.CacheService;
 import com.jarapplication.kiranastore.feature_transactions.enums.CurrencyCode;
 import com.jarapplication.kiranastore.feature_transactions.util.DateUtil;
@@ -31,7 +35,7 @@ public class ConversionServiceImp implements ConversionService {
     @Override
     public double calculate(CurrencyCode currencyCode) throws JSONException {
         if (currencyCode == null) {
-            throw new JSONException("currencyCode is null");
+            throw new JSONException(CURRENCYCODE_IS_NULL);
         }
 
         String result =
@@ -42,20 +46,20 @@ public class ConversionServiceImp implements ConversionService {
         String response = (String) fxRatesApiService.fetchData();
         JSONObject jsonResponse = new JSONObject(response);
 
-        if (jsonResponse.getBoolean("success")) {
-            JSONObject rates = jsonResponse.getJSONObject("rates");
+        if (jsonResponse.getBoolean(SUCCESS)) {
+            JSONObject rates = jsonResponse.getJSONObject(RATES);
 
-            double baseToINR = rates.getDouble("INR");
+            double baseToINR = rates.getDouble(CurrencyCode.INR.toString());
             double baseToCurrency = rates.optDouble(currencyCode.name(), -1);
             if (baseToCurrency == -1) {
-                throw new IllegalArgumentException("Invalid Currency Code: " + currencyCode.name());
+                throw new IllegalArgumentException(INVALID_CURRENCYCODE + currencyCode.name());
             }
             double value = baseToCurrency / baseToINR;
             cacheService.setValueToRedis(
                     currencyCode + "_INR", String.valueOf(value), DateUtil.getEndOfMinute());
             return baseToCurrency / baseToINR;
         } else {
-            throw new RuntimeException("API call unsuccessful");
+            throw new RuntimeException(API_CALL_UNSUCCESSFUL);
         }
     }
 }

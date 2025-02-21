@@ -1,5 +1,7 @@
 package com.jarapplication.kiranastore.filters;
 
+import static com.jarapplication.kiranastore.constants.LogConstants.*;
+import static com.jarapplication.kiranastore.constants.SecurityConstants.AUTHORIZATION;
 import static com.jarapplication.kiranastore.constants.SecurityConstants.TOKEN_PREFIX;
 
 import com.jarapplication.kiranastore.feature_users.service.CustomUserDetailsService;
@@ -12,6 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -42,11 +45,10 @@ public class JwtFilter extends OncePerRequestFilter {
                 return;
             }
 
-            String authorizationHeader = request.getHeader("Authorization");
+            String authorizationHeader = request.getHeader(AUTHORIZATION);
 
             if (authorizationHeader == null || !authorizationHeader.startsWith(TOKEN_PREFIX)) {
-                response.sendError(
-                        HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized: No JWT token found.");
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED_NO_JWT);
                 return;
             }
 
@@ -58,7 +60,7 @@ public class JwtFilter extends OncePerRequestFilter {
                     && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-                if (jwtUtil.isvalidateToken(token)) {
+                if (jwtUtil.isValidateToken(token)) {
                     List<SimpleGrantedAuthority> authorities =
                             roles.stream()
                                     .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
@@ -69,15 +71,15 @@ public class JwtFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 } else {
                     response.sendError(
-                            HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized: Invalid JWT.");
+                            HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED_INVALID_JWT);
                     return;
                 }
             }
             filterChain.doFilter(request, response);
         } catch (Exception e) {
             ApiResponse apiResponse = new ApiResponse();
-            apiResponse.setStatus("500");
-            apiResponse.setError("Invalid or expired JWT.");
+            apiResponse.setStatus(HttpStatus.METHOD_NOT_ALLOWED.name());
+            apiResponse.setError(INVALID_OR_EXPIRED_JWT);
             response.getWriter().write(apiResponse.toString());
         }
     }

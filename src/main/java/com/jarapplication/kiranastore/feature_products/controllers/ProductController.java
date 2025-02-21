@@ -1,7 +1,6 @@
 package com.jarapplication.kiranastore.feature_products.controllers;
 
 import com.jarapplication.kiranastore.AOP.annotation.RateLimiter;
-import com.jarapplication.kiranastore.constants.HttpStatusCode;
 import com.jarapplication.kiranastore.feature_products.models.Product;
 import com.jarapplication.kiranastore.feature_products.service.ProductServiceImp;
 import com.jarapplication.kiranastore.response.ApiResponse;
@@ -32,15 +31,15 @@ public class ProductController {
      * @return
      */
     @GetMapping("/type")
-    public ApiResponse getProductsByType(
+    public ResponseEntity<ApiResponse> getProductsByType(
             @RequestParam String category,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         List<Product> result = productService.findByType(category, page, size).getContent();
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setData(result);
-        apiResponse.setStatus(HttpStatusCode.OK);
-        return apiResponse;
+        apiResponse.setStatus(HttpStatus.OK.name());
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     /**
@@ -55,6 +54,7 @@ public class ProductController {
         Product result = productService.save(product);
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setData(result);
+        apiResponse.setStatus(HttpStatus.OK.name());
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
@@ -67,13 +67,13 @@ public class ProductController {
      */
     @GetMapping
     @RateLimiter(limit = 5)
-    public ApiResponse getAllProducts(
+    public ResponseEntity<ApiResponse> getAllProducts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         List<Product> result = productService.getAllProducts(page, size).getContent();
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setData(result);
-        apiResponse.setStatus(HttpStatusCode.OK);
-        return apiResponse;
+        apiResponse.setStatus(HttpStatus.OK.name());
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 }
